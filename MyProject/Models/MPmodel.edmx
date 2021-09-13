@@ -1,0 +1,289 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="MPmodel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="MPmodelStoreContainer">
+    <EntitySet Name="People" EntityType="MPmodel.Store.People" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Transactions" EntityType="MPmodel.Store.Transactions" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Properties" EntityType="MPmodel.Store.Properties" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Registrations" EntityType="MPmodel.Store.Registrations" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="TransactionProperty" Association="MPmodel.Store.TransactionProperty">
+      <End Role="Transaction" EntitySet="Transactions" />
+      <End Role="Property" EntitySet="Properties" />
+    </AssociationSet>
+    <AssociationSet Name="PersonRegistration" Association="MPmodel.Store.PersonRegistration">
+      <End Role="Person" EntitySet="People" />
+      <End Role="Registration" EntitySet="Registrations" />
+    </AssociationSet>
+    <AssociationSet Name="PersonTransaction" Association="MPmodel.Store.PersonTransaction">
+      <End Role="Person" EntitySet="People" />
+      <End Role="Transaction" EntitySet="Transactions" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="People">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="firstName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="lastName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="phoneNumber" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="type" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Registration_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Transactions">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="price" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="date" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="type" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="PersonId" Type="int" Nullable="false" />
+    <Property Name="Property_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Properties">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="area" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="length" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="width" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="height" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="location" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="postCode" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="num_bedroom" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="num_bathroom" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="num_carpark" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="year_built" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Registrations">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="password" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <Association Name="TransactionProperty">
+    <End Role="Transaction" Type="MPmodel.Store.Transactions" Multiplicity="*" />
+    <End Role="Property" Type="MPmodel.Store.Properties" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Property">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Transaction">
+        <PropertyRef Name="Property_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="PersonRegistration">
+    <End Role="Person" Type="MPmodel.Store.People" Multiplicity="*" />
+    <End Role="Registration" Type="MPmodel.Store.Registrations" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Registration">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Person">
+        <PropertyRef Name="Registration_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="PersonTransaction">
+    <End Role="Person" Type="MPmodel.Store.People" Multiplicity="1" />
+    <End Role="Transaction" Type="MPmodel.Store.Transactions" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Person">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Transaction">
+        <PropertyRef Name="PersonId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="MPmodel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="MPmodelContainer" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="People" EntityType="MPmodel.Person" />
+          <EntitySet Name="Transactions" EntityType="MPmodel.Transaction" />
+          <EntitySet Name="Properties" EntityType="MPmodel.Property" />
+          <EntitySet Name="Registrations" EntityType="MPmodel.Registration" />
+          <AssociationSet Name="TransactionProperty" Association="MPmodel.TransactionProperty">
+            <End Role="Transaction" EntitySet="Transactions" />
+            <End Role="Property" EntitySet="Properties" />
+          </AssociationSet>
+          <AssociationSet Name="PersonRegistration" Association="MPmodel.PersonRegistration">
+            <End Role="Person" EntitySet="People" />
+            <End Role="Registration" EntitySet="Registrations" />
+          </AssociationSet>
+          <AssociationSet Name="PersonTransaction" Association="MPmodel.PersonTransaction">
+            <End Role="Person" EntitySet="People" />
+            <End Role="Transaction" EntitySet="Transactions" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Person">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="firstName" Type="String" Nullable="false" />
+          <Property Name="lastName" Type="String" Nullable="false" />
+          <Property Name="phoneNumber" Type="String" Nullable="false" />
+          <Property Name="type" Type="String" Nullable="false" />
+          <NavigationProperty Name="Registration" Relationship="MPmodel.PersonRegistration" FromRole="Person" ToRole="Registration" />
+          <NavigationProperty Name="Transactions" Relationship="MPmodel.PersonTransaction" FromRole="Person" ToRole="Transaction" />
+        </EntityType>
+        <EntityType Name="Transaction">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="price" Type="String" Nullable="false" />
+          <Property Name="date" Type="String" Nullable="false" />
+          <Property Name="type" Type="String" Nullable="false" />
+          <NavigationProperty Name="Property" Relationship="MPmodel.TransactionProperty" FromRole="Transaction" ToRole="Property" />
+          <NavigationProperty Name="Person" Relationship="MPmodel.PersonTransaction" FromRole="Transaction" ToRole="Person" />
+          <Property Name="PersonId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Property">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="area" Type="String" Nullable="false" />
+          <Property Name="length" Type="String" Nullable="false" />
+          <Property Name="width" Type="String" Nullable="false" />
+          <Property Name="height" Type="String" Nullable="false" />
+          <Property Name="location" Type="String" Nullable="false" />
+          <Property Name="postCode" Type="String" Nullable="false" />
+          <Property Name="num_bedroom" Type="String" Nullable="false" />
+          <Property Name="num_bathroom" Type="String" Nullable="false" />
+          <Property Name="num_carpark" Type="String" Nullable="false" />
+          <Property Name="year_built" Type="String" Nullable="false" />
+          <NavigationProperty Name="Transaction" Relationship="MPmodel.TransactionProperty" FromRole="Property" ToRole="Transaction" />
+        </EntityType>
+        <EntityType Name="Registration">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="password" Type="String" Nullable="false" />
+          <NavigationProperty Name="Person" Relationship="MPmodel.PersonRegistration" FromRole="Registration" ToRole="Person" />
+        </EntityType>
+        <Association Name="TransactionProperty">
+          <End Type="MPmodel.Transaction" Role="Transaction" Multiplicity="1" />
+          <End Type="MPmodel.Property" Role="Property" Multiplicity="1" />
+        </Association>
+        <Association Name="PersonRegistration">
+          <End Type="MPmodel.Person" Role="Person" Multiplicity="1" />
+          <End Type="MPmodel.Registration" Role="Registration" Multiplicity="1" />
+        </Association>
+        <Association Name="PersonTransaction">
+          <End Type="MPmodel.Person" Role="Person" Multiplicity="1" />
+          <End Type="MPmodel.Transaction" Role="Transaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Transaction">
+              <PropertyRef Name="PersonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="MPmodelStoreContainer" CdmEntityContainer="MPmodelContainer">
+    <EntitySetMapping Name="People">
+      <EntityTypeMapping TypeName="IsTypeOf(MPmodel.Person)">
+        <MappingFragment StoreEntitySet="People">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="firstName" ColumnName="firstName" />
+          <ScalarProperty Name="lastName" ColumnName="lastName" />
+          <ScalarProperty Name="phoneNumber" ColumnName="phoneNumber" />
+          <ScalarProperty Name="type" ColumnName="type" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Transactions">
+      <EntityTypeMapping TypeName="IsTypeOf(MPmodel.Transaction)">
+        <MappingFragment StoreEntitySet="Transactions">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="price" ColumnName="price" />
+          <ScalarProperty Name="date" ColumnName="date" />
+          <ScalarProperty Name="type" ColumnName="type" />
+          <ScalarProperty Name="PersonId" ColumnName="PersonId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Properties">
+      <EntityTypeMapping TypeName="IsTypeOf(MPmodel.Property)">
+        <MappingFragment StoreEntitySet="Properties">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="area" ColumnName="area" />
+          <ScalarProperty Name="length" ColumnName="length" />
+          <ScalarProperty Name="width" ColumnName="width" />
+          <ScalarProperty Name="height" ColumnName="height" />
+          <ScalarProperty Name="location" ColumnName="location" />
+          <ScalarProperty Name="postCode" ColumnName="postCode" />
+          <ScalarProperty Name="num_bedroom" ColumnName="num_bedroom" />
+          <ScalarProperty Name="num_bathroom" ColumnName="num_bathroom" />
+          <ScalarProperty Name="num_carpark" ColumnName="num_carpark" />
+          <ScalarProperty Name="year_built" ColumnName="year_built" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Registrations">
+      <EntityTypeMapping TypeName="IsTypeOf(MPmodel.Registration)">
+        <MappingFragment StoreEntitySet="Registrations">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="password" ColumnName="password" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="TransactionProperty" TypeName="MPmodel.TransactionProperty" StoreEntitySet="Transactions">
+      <EndProperty Name="Property">
+        <ScalarProperty Name="Id" ColumnName="Property_Id" />
+      </EndProperty>
+      <EndProperty Name="Transaction">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="PersonRegistration" TypeName="MPmodel.PersonRegistration" StoreEntitySet="People">
+      <EndProperty Name="Registration">
+        <ScalarProperty Name="Id" ColumnName="Registration_Id" />
+      </EndProperty>
+      <EndProperty Name="Person">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
